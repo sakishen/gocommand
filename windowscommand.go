@@ -20,7 +20,7 @@ func NewWindowsCommand() *WindowsCommand {
 // args: 命令行参数
 // return: 进程的pid, 命令行结果, 错误消息
 func (lc *WindowsCommand) Exec(args ...string) (int, string, error) {
-	args = append([]string{"-c"}, args...)
+	args = append([]string{"/C"}, args...)
 	cmd := exec.Command("cmd", args...)
 
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
@@ -54,7 +54,7 @@ func (lc *WindowsCommand) ExecAsync(stdout chan string, args ...string) int {
 	var pidChan = make(chan int, 1)
 
 	go func() {
-		args = append([]string{"-c"}, args...)
+		args = append([]string{"/C"}, args...)
 		cmd := exec.Command("cmd", args...)
 
 		cmd.SysProcAttr = &syscall.SysProcAttr{}
@@ -88,7 +88,7 @@ func (lc *WindowsCommand) ExecAsync(stdout chan string, args ...string) int {
 // args: 命令行参数
 // return: 错误消息
 func (lc *WindowsCommand) ExecIgnoreResult(args ...string) error {
-	args = append([]string{"-c"}, args...)
+	args = append([]string{"/C"}, args...)
 	cmd := exec.Command("cmd", args...)
 
 	cmd.Stdout = os.Stdout
